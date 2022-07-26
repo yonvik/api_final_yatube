@@ -42,12 +42,13 @@ python manage.py runserver
 ### Примеры использования
 **Получение списка постов**
 GET запрос http://127.0.0.1:8000/api/v1/posts/
+
 Ответ:
 ```
 [
     {
         "id": 1,
-        "author": "user",
+        "author": "admin",
         "text": "New post",
         "pub_date": "2022-03-10T20:40:55.107802Z",
         "image": null,
@@ -68,8 +69,8 @@ POST запрос http://127.0.0.1:8000/api/v1/posts/
 ```
 {
     "text": "string",
-    "image": "string",
-    "group": 0
+    "image": null,
+    "group": 2
 }
 ```
 Ответ:
