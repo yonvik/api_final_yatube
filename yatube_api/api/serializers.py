@@ -12,7 +12,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Comment
-        read_only_fields = ('post', )
+        read_only_fields = ('post',)
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -23,7 +23,8 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        slug_field='username', read_only=True)
+        slug_field='username', read_only=True
+    )
 
     class Meta:
         fields = '__all__'
@@ -34,9 +35,11 @@ class FollowSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='username',
-        default=serializers.CurrentUserDefault())
+        default=serializers.CurrentUserDefault(),
+    )
     following = serializers.SlugRelatedField(
-        queryset=User.objects.all(), slug_field='username')
+        queryset=User.objects.all(), slug_field='username'
+    )
 
     def validate_following(self, value):
         if self.context['request'].user == value:
@@ -48,7 +51,6 @@ class FollowSerializer(serializers.ModelSerializer):
         fields = ('user', 'following')
         validators = [
             UniqueTogetherValidator(
-                queryset=Follow.objects.all(),
-                fields=fields
+                queryset=Follow.objects.all(), fields=fields
             )
         ]

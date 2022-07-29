@@ -15,9 +15,7 @@ class Group(models.Model):
 
 class Post(models.Model):
     text = models.TextField()
-    pub_date = models.DateTimeField(
-        'Дата публикации', auto_now_add=True
-    )
+    pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts'
     )
@@ -25,22 +23,30 @@ class Post(models.Model):
         upload_to='posts/', null=True, blank=True
     )  # поле для картинки
     group = models.ForeignKey(
-        Group, on_delete=models.SET_NULL,
-        related_name="posts", blank=True, null=True
+        Group,
+        on_delete=models.SET_NULL,
+        related_name="posts",
+        blank=True,
+        null=True,
     )
+
+    class Meta:
+        ordering = ('pub_date',)
 
     STR_FIELDS = (
         'Пост: {text:.15}... '
         'Дата публикации: {date:%d %b %Y}. '
         'Автор: {author}. '
-        'Группа: {group}. ')
+        'Группа: {group}. '
+    )
 
     def __str__(self):
         return self.STR_FIELDS.format(
             text=self.text,
             date=self.pub_date,
             author=self.author.username,
-            group=self.group)
+            group=self.group,
+        )
 
 
 class Comment(models.Model):
@@ -62,18 +68,20 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='follower',
         verbose_name='Пользователь',
-        blank=True)
+        blank=True,
+    )
     following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
         verbose_name='Автор',
-        blank=True)
+        blank=True,
+    )
 
     class Meta:
         verbose_name = 'Подписки'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'following'],
-                name='unique_follower')
+                fields=['user', 'following'], name='unique_follower'
+            )
         ]

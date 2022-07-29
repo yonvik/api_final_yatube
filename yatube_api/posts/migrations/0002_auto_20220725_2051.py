@@ -16,7 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('title', models.CharField(max_length=100)),
                 ('slug', models.SlugField(unique=True)),
                 ('discription', models.TextField()),
@@ -25,9 +33,35 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Follow',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='following', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('user', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='follower', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'author',
+                    models.ForeignKey(
+                        blank=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='following',
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name='Автор',
+                    ),
+                ),
+                (
+                    'user',
+                    models.ForeignKey(
+                        blank=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='follower',
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name='Пользователь',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Подписки',
@@ -36,10 +70,18 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='group',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='posts.Group'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='posts',
+                to='posts.Group',
+            ),
         ),
         migrations.AddConstraint(
             model_name='follow',
-            constraint=models.UniqueConstraint(fields=('user', 'author'), name='unique_follower'),
+            constraint=models.UniqueConstraint(
+                fields=('user', 'author'), name='unique_follower'
+            ),
         ),
     ]
